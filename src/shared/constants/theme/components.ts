@@ -1,7 +1,6 @@
 export const themeComponents = {
   button: {
-    base:
-      'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50',
+    base: 'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50',
     sizes: {
       default: 'h-10 px-4 py-2',
       sm: 'h-9 px-3',
@@ -13,8 +12,7 @@ export const themeComponents = {
     },
   },
   input: {
-    base:
-      'flex h-10 w-full rounded-md border border-border bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50',
+    base: 'flex h-10 w-full rounded-md border border-border bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50',
   },
   card: {
     base: 'rounded-xl border border-border bg-card text-card-foreground shadow-sm',

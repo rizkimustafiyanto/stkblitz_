@@ -41,7 +41,14 @@ onMounted(() => {
 <template>
   <section v-if="chat" :class="themeTokens.spacing.sectionGap">
     <div class="flex items-center justify-between gap-4">
-      <button :class="[themeTokens.typography.caption, themeTokens.color.mutedText, 'font-medium hover:text-foreground']" @click="backToList">
+      <button
+        :class="[
+          themeTokens.typography.caption,
+          themeTokens.color.mutedText,
+          'font-medium hover:text-foreground',
+        ]"
+        @click="backToList"
+      >
         Back to chats
       </button>
       <div class="text-right">
@@ -53,10 +60,16 @@ onMounted(() => {
     <Card class="overflow-hidden">
       <div class="border-b border-border p-4">
         <div class="flex items-center gap-3">
-          <img :src="chat.avatar" :alt="chat.name" :class="['h-12 w-12 object-cover', themeTokens.radius.pill]" />
+          <img
+            :src="chat.avatar"
+            :alt="chat.name"
+            :class="['h-12 w-12 object-cover', themeTokens.radius.pill]"
+          />
           <div>
             <h3 class="font-semibold">{{ chat.name }}</h3>
-            <p :class="[themeTokens.typography.body, themeTokens.color.mutedText]">{{ chat.username }}</p>
+            <p :class="[themeTokens.typography.body, themeTokens.color.mutedText]">
+              {{ chat.username }}
+            </p>
           </div>
         </div>
       </div>
@@ -80,7 +93,9 @@ onMounted(() => {
           >
             <p class="font-medium" v-if="message.sender === 'them'">{{ chat.name }}</p>
             <p>{{ message.text }}</p>
-            <p :class="['mt-1', themeTokens.typography.caption, 'opacity-70']">{{ formatChatTime(message.createdAt) }}</p>
+            <p :class="['mt-1', themeTokens.typography.caption, 'opacity-70']">
+              {{ formatChatTime(message.createdAt) }}
+            </p>
           </div>
         </div>
       </div>
@@ -98,7 +113,14 @@ onMounted(() => {
     </Card>
   </section>
 
-  <section v-else :class="['rounded-xl border border-border p-6', themeTokens.typography.body, themeTokens.color.mutedText]">
+  <section
+    v-else
+    :class="[
+      'rounded-xl border border-border p-6',
+      themeTokens.typography.body,
+      themeTokens.color.mutedText,
+    ]"
+  >
     Chat not found.
   </section>
 </template>

@@ -47,9 +47,25 @@ function handleLogin() {
 
 <template>
   <AppLayout title="Welcome back">
-    <section :class="['mx-auto grid', themeTokens.layout.contentWidth, themeTokens.spacing.sectionGap, 'lg:grid-cols-[1.1fr_0.9fr]']">
-      <div :class="['border border-border bg-gradient-to-br from-primary via-slate-900 to-slate-800 text-white', themeTokens.radius.xl, themeTokens.spacing.cardPadding, themeTokens.shadow.strong]">
-        <p :class="[themeTokens.typography.overline, themeTokens.color.whiteMuted]">stkblitz chat</p>
+    <section
+      :class="[
+        'mx-auto grid',
+        themeTokens.layout.contentWidth,
+        themeTokens.spacing.sectionGap,
+        'lg:grid-cols-[1.1fr_0.9fr]',
+      ]"
+    >
+      <div
+        :class="[
+          'border border-border bg-gradient-to-br from-primary via-slate-900 to-slate-800 text-white',
+          themeTokens.radius.xl,
+          themeTokens.spacing.cardPadding,
+          themeTokens.shadow.strong,
+        ]"
+      >
+        <p :class="[themeTokens.typography.overline, themeTokens.color.whiteMuted]">
+          stkblitz chat
+        </p>
         <h2 :class="['mt-6 max-w-lg', themeTokens.typography.display, 'leading-tight']">
           Sign in to continue the conversation experience.
         </h2>
@@ -57,14 +73,22 @@ function handleLogin() {
           Use any email and password. Login always succeeds as long as both fields are filled.
         </p>
 
-        <div :class="['mt-10 flex items-center border border-white/10 bg-white/5 p-4', themeTokens.spacing.contentGap, themeTokens.radius.lg]">
+        <div
+          :class="[
+            'mt-10 flex items-center border border-white/10 bg-white/5 p-4',
+            themeTokens.spacing.contentGap,
+            themeTokens.radius.lg,
+          ]"
+        >
           <img
             src="https://randomuser.me/api/portraits/men/32.jpg"
             alt="Profile preview"
             :class="['h-14 w-14 object-cover ring-2 ring-white/20', themeTokens.radius.pill]"
           />
           <div>
-            <p :class="[themeTokens.typography.caption, themeTokens.color.whiteMuted]">Example user</p>
+            <p :class="[themeTokens.typography.caption, themeTokens.color.whiteMuted]">
+              Example user
+            </p>
             <p class="text-lg font-medium">Chris Evans</p>
           </div>
         </div>

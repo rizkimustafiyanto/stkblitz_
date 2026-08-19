@@ -17,7 +17,14 @@ defineProps<{
       </div>
     </header>
 
-    <main :class="['mx-auto', themeTokens.layout.shellWidth, themeTokens.spacing.pageX, themeTokens.spacing.pageY]">
+    <main
+      :class="[
+        'mx-auto',
+        themeTokens.layout.shellWidth,
+        themeTokens.spacing.pageX,
+        themeTokens.spacing.pageY,
+      ]"
+    >
       <slot />
     </main>
   </div>

@@ -1,4 +1,17 @@
-const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+const monthNames = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+]
 
 export function formatChatTime(value: string) {
   const date = new Date(value)
@@ -19,5 +32,5 @@ export function formatChatTime(value: string) {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
   }
 
-  return `${date.getDate()} ${monthNames[date.getMonth()]}` 
+  return `${date.getDate()} ${monthNames[date.getMonth()]}`
 }

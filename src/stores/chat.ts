@@ -76,9 +76,7 @@ export const useChatStore = defineStore('chat', () => {
     [...chats].sort((a, b) => +new Date(b.updatedAt) - +new Date(a.updatedAt)),
   )
 
-  const unreadTotal = computed(() =>
-    chats.reduce((total, chat) => total + chat.unreadCount, 0),
-  )
+  const unreadTotal = computed(() => chats.reduce((total, chat) => total + chat.unreadCount, 0))
 
   function getChatById(chatId: string) {
     return chats.find((chat) => chat.id === chatId)

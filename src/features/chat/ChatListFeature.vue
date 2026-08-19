@@ -41,7 +41,9 @@ function logout() {
   <section :class="themeTokens.spacing.sectionGap">
     <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <p :class="[themeTokens.typography.caption, themeTokens.color.mutedText]">Logged in as {{ auth.user?.name }}</p>
+        <p :class="[themeTokens.typography.caption, themeTokens.color.mutedText]">
+          Logged in as {{ auth.user?.name }}
+        </p>
         <h2 :class="[themeTokens.typography.h1]">Messages</h2>
         <p :class="['mt-2', themeTokens.typography.body, themeTokens.color.mutedText]">
           {{ chatStore.unreadTotal }} unread messages across all chats.
@@ -65,17 +67,25 @@ function logout() {
         @click="openChat(chat.id)"
       >
         <div class="flex items-center gap-4 p-4">
-          <img :src="chat.avatar" :alt="chat.name" :class="['h-14 w-14 object-cover', themeTokens.radius.pill]" />
+          <img
+            :src="chat.avatar"
+            :alt="chat.name"
+            :class="['h-14 w-14 object-cover', themeTokens.radius.pill]"
+          />
 
           <div class="min-w-0 flex-1">
             <div class="flex items-start justify-between gap-4">
               <div class="min-w-0">
                 <h3 class="truncate text-base font-semibold">{{ chat.name }}</h3>
-                <p :class="[themeTokens.typography.body, themeTokens.color.mutedText]">{{ chatStore.formatPreview(chat.messages[chat.messages.length - 1]) }}</p>
+                <p :class="[themeTokens.typography.body, themeTokens.color.mutedText]">
+                  {{ chatStore.formatPreview(chat.messages[chat.messages.length - 1]) }}
+                </p>
               </div>
 
               <div class="flex flex-col items-end gap-2">
-                <span :class="[themeTokens.typography.caption, themeTokens.color.mutedText]">{{ formatChatTime(chat.updatedAt) }}</span>
+                <span :class="[themeTokens.typography.caption, themeTokens.color.mutedText]">{{
+                  formatChatTime(chat.updatedAt)
+                }}</span>
                 <span
                   v-if="chat.unreadCount > 0"
                   class="inline-flex min-w-6 items-center justify-center rounded-full bg-primary px-2 py-1 text-xs font-semibold text-primary-foreground"
