@@ -1,7 +1,7 @@
 export const themeSpacing = {
   pageX: 'px-6',
   pageY: 'py-10',
-  sectionGap: 'space-y-6',
+  sectionGap: 'space-y-4',
   cardPadding: 'p-6',
   cardHeaderPadding: 'p-6',
   cardContentPadding: 'p-6 pt-0',

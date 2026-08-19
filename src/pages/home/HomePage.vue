@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import AppLayout from '@/app/providers/AppLayout.vue'
-import ChatListFeature from '@/features/chat/ChatListFeature.vue'
+import ChatList from '@/features/chat/list/index.vue'
 </script>
 
 <template>
   <AppLayout>
-    <ChatListFeature />
+    <ChatList />
   </AppLayout>
 </template>

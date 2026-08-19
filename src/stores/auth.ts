@@ -1,77 +1,63 @@
-import { computed, ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 
-type AuthUser = {
-  email: string
-  name: string
-  avatar: string
+import type { LoginPayload, User } from '@/types'
+
+import { authService, authStorage } from '@/services'
+
+type AuthState = {
+  user: User | null
+  token: string | null
+  authChecked: boolean
 }
 
-function toTitleCaseFromEmail(email: string) {
-  const localPart = email.split('@')[0] ?? ''
-  return localPart
-    .replace(/[._-]+/g, ' ')
-    .split(' ')
-    .filter(Boolean)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
-    .join(' ')
-}
+const service = authService()
 
-export const useAuthStore = defineStore('auth', () => {
-  const storageKey = 'stkblitz.auth.user'
-  const user = ref<AuthUser | null>(null)
+export const useAuthStore = defineStore('auth', {
+  state: (): AuthState => ({
+    user: null,
+    token: null,
+    authChecked: false,
+  }),
 
-  if (typeof window !== 'undefined') {
-    const savedUser = window.localStorage.getItem(storageKey)
-    if (savedUser) {
+  getters: {
+    isLoggedIn: (state): boolean => {
+      return state.user !== null
+    },
+  },
+
+  actions: {
+    initialize(): void {
+      const auth = authStorage.get()
+
+      this.user = auth?.user ?? null
+      this.token = auth?.token ?? null
+      this.authChecked = true
+    },
+
+    async login(payload: LoginPayload): Promise<void> {
+      const { data } = await service.login(payload)
+
+      this.user = data.user
+      this.token = data.token
+
+      authStorage.set({
+        user: data.user,
+        token: data.token,
+      })
+
+      this.authChecked = true
+    },
+
+    async logout(): Promise<void> {
       try {
-        user.value = JSON.parse(savedUser) as AuthUser
-      } catch {
-        window.localStorage.removeItem(storageKey)
-      }
-    }
-  }
+        await service.logout()
+      } finally {
+        this.user = null
+        this.token = null
+        this.authChecked = true
 
-  const isLoggedIn = computed(() => user.value !== null)
-
-  watch(
-    user,
-    (value) => {
-      if (typeof window === 'undefined') {
-        return
-      }
-
-      if (value) {
-        window.localStorage.setItem(storageKey, JSON.stringify(value))
-      } else {
-        window.localStorage.removeItem(storageKey)
+        authStorage.clear()
       }
     },
-    { deep: true },
-  )
-
-  function login(email: string, password: string) {
-    if (!email.trim() || !password.trim()) {
-      return false
-    }
-
-    user.value = {
-      email,
-      name: toTitleCaseFromEmail(email),
-      avatar: `https://randomuser.me/api/portraits/lego/${Math.abs(email.length * 13) % 10}.jpg`,
-    }
-
-    return true
-  }
-
-  function logout() {
-    user.value = null
-  }
-
-  return {
-    user,
-    isLoggedIn,
-    login,
-    logout,
-  }
+  },
 })

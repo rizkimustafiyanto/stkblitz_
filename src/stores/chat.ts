@@ -1,144 +1,88 @@
-import { computed, reactive } from 'vue'
 import { defineStore } from 'pinia'
 
 import type { ChatMessage, ChatThread } from '@/types/chat'
-import { useAuthStore } from '@/stores/auth'
+import { chatMockData } from '@/mocks'
+import { cloneChats } from '@/shared/utils'
 
-function makeThread(index: number): ChatThread {
-  const name = [
-    'Ariana Stone',
-    'Chris Evans',
-    'Mila Hart',
-    'Noah Bennett',
-    'Zara Quinn',
-    'Liam Carter',
-    'Nina Brooks',
-    'Ethan Cole',
-    'Sofia Lane',
-    'Lucas Reed',
-    'Olivia Park',
-    'Mason Gray',
-    'Emma Fox',
-    'Caleb Ward',
-    'Ivy Moore',
-    'Henry Wells',
-    'Ella Scott',
-    'Leo Turner',
-    'Ruby Hayes',
-    'Owen Brooks',
-  ][index]
+type ChatState = {
+  chats: ChatThread[]
+}
 
-  const minutesAgo = index * 7 + 2
-  const now = Date.now()
-  const createdAt = new Date(now - minutesAgo * 60_000).toISOString()
+export const useChatStore = defineStore('chat', {
+  state: (): ChatState => ({
+    chats: cloneChats(chatMockData),
+  }),
 
-  const messages: ChatMessage[] = [
-    {
-      id: `msg-${index}-1`,
-      text: `Hey, this is message preview for ${name}.`,
-      sender: 'them',
-      createdAt,
+  getters: {
+    sortedChats: (state): ChatThread[] => {
+      return [...state.chats].sort(
+        (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
+      )
     },
-  ]
 
-  return {
-    id: `chat-${index + 1}`,
-    name,
-    username: `@${name.toLowerCase().replace(/\s+/g, '')}`,
-    avatar: `https://randomuser.me/api/portraits/${
-      index % 2 === 0 ? 'women' : 'men'
-    }/${(index * 3) % 99}.jpg`,
-    unreadCount: index % 4,
-    updatedAt: createdAt,
-    messages,
-  }
-}
+    unreadTotal: (state): number => {
+      return state.chats.reduce((total, chat) => total + chat.unreadCount, 0)
+    },
 
-const seedChats = Array.from({ length: 20 }, (_, index) => makeThread(index))
+    getChatById:
+      (state) =>
+      (chatId: string): ChatThread | undefined => {
+        return state.chats.find((chat) => chat.id === chatId)
+      },
 
-function formatPreview(message: ChatMessage) {
-  return message.text
-}
+    searchChats:
+      (state) =>
+      (keyword: string): ChatThread[] => {
+        const normalized = keyword.trim().toLowerCase()
 
-function cloneChats(chats: ChatThread[]) {
-  return chats.map((chat) => ({
-    ...chat,
-    messages: chat.messages.map((message) => ({ ...message })),
-  }))
-}
+        return [...state.chats]
+          .filter((chat) => {
+            if (!normalized) {
+              return true
+            }
 
-export const useChatStore = defineStore('chat', () => {
-  const chats = reactive<ChatThread[]>(cloneChats(seedChats))
+            return chat.name.toLowerCase().includes(normalized)
+          })
+          .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+      },
 
-  const auth = useAuthStore()
+    getLastMessage:
+      (state) =>
+      (chatId: string): ChatMessage | null => {
+        const chat = state.chats.find((item) => item.id === chatId)
 
-  const sortedChats = computed(() =>
-    [...chats].sort((a, b) => +new Date(b.updatedAt) - +new Date(a.updatedAt)),
-  )
+        return chat?.messages[chat.messages.length - 1] ?? null
+      },
+  },
 
-  const unreadTotal = computed(() => chats.reduce((total, chat) => total + chat.unreadCount, 0))
+  actions: {
+    sendMessage(chatId: string, text: string): void {
+      const chat = this.chats.find((item) => item.id === chatId)
 
-  function getChatById(chatId: string) {
-    return chats.find((chat) => chat.id === chatId)
-  }
+      if (!chat || !text.trim()) {
+        return
+      }
 
-  function searchChats(keyword: string) {
-    const normalized = keyword.trim().toLowerCase()
+      const message: ChatMessage = {
+        id: `msg-${chat.id}-${Date.now()}`,
+        text: text.trim(),
+        sender: 'me',
+        createdAt: new Date().toISOString(),
+      }
 
-    if (!normalized) {
-      return sortedChats.value
-    }
-
-    return sortedChats.value.filter((chat) => chat.name.toLowerCase().includes(normalized))
-  }
-
-  function getLastMessage(chat: ChatThread) {
-    return chat.messages[chat.messages.length - 1] ?? null
-  }
-
-  function sendMessage(chatId: string, text: string) {
-    const chat = getChatById(chatId)
-    if (!chat || !text.trim()) {
-      return
-    }
-
-    const message: ChatMessage = {
-      id: `msg-${chat.id}-${Date.now()}`,
-      text: text.trim(),
-      sender: 'me',
-      createdAt: new Date().toISOString(),
-    }
-
-    chat.messages.push(message)
-    chat.updatedAt = message.createdAt
-    chat.unreadCount = 0
-  }
-
-  function resetUnread(chatId: string) {
-    const chat = getChatById(chatId)
-    if (chat) {
+      chat.messages.push(message)
+      chat.updatedAt = message.createdAt
       chat.unreadCount = 0
-    }
-  }
+    },
 
-  function markAsRead(chatId: string) {
-    resetUnread(chatId)
-  }
+    markAsRead(chatId: string): void {
+      const chat = this.chats.find((item) => item.id === chatId)
 
-  function currentUserName() {
-    return auth.user?.name ?? 'You'
-  }
+      if (!chat) {
+        return
+      }
 
-  return {
-    chats,
-    sortedChats,
-    unreadTotal,
-    searchChats,
-    getChatById,
-    getLastMessage,
-    sendMessage,
-    markAsRead,
-    currentUserName,
-    formatPreview,
-  }
+      chat.unreadCount = 0
+    },
+  },
 })

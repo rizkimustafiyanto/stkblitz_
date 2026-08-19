@@ -3,10 +3,12 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '@/pages/home/HomePage.vue'
 import LoginPage from '@/pages/auth/LoginPage.vue'
 import ChatDetailPage from '@/pages/chat/ChatDetailPage.vue'
+
 import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
   history: createWebHistory(),
+
   routes: [
     {
       path: '/',
@@ -33,14 +35,18 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
-  const auth = useAuthStore()
+  const authStore = useAuthStore()
 
-  if (to.meta.requiresAuth && !auth.isLoggedIn) {
-    return { name: 'login' }
+  if (to.meta.requiresAuth && !authStore.isLoggedIn) {
+    return {
+      name: 'login',
+    }
   }
 
-  if (to.name === 'login' && auth.isLoggedIn) {
-    return { name: 'home' }
+  if (to.name === 'login' && authStore.isLoggedIn) {
+    return {
+      name: 'home',
+    }
   }
 
   return true

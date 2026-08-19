@@ -1,13 +1,5 @@
 import { ref } from 'vue'
-
-type SchemaLike<T> = {
-  safeParse: (value: unknown) =>
-    | { success: true; data: T }
-    | {
-        success: false
-        error: { issues: Array<{ path: Array<string | number>; message: string }> }
-      }
-}
+import type { z } from 'zod'
 
 export function useZodForm() {
   const errors = ref<Record<string, string>>({})
@@ -16,7 +8,7 @@ export function useZodForm() {
     errors.value = {}
   }
 
-  const validate = <T>(data: unknown, schema: SchemaLike<T>): boolean => {
+  const validate = <T>(data: unknown, schema: z.ZodType<T>): boolean => {
     clearErrors()
 
     const result = schema.safeParse(data)
