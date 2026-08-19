@@ -16,7 +16,7 @@ import { useAuthStore } from '@/stores/auth'
 const router = useRouter()
 const auth = useAuthStore()
 
-const email = ref('chris_evans@example.com')
+const email = ref('')
 const password = ref('password')
 const errorMessage = ref('')
 
@@ -46,10 +46,10 @@ function handleLogin() {
 </script>
 
 <template>
-  <AppLayout title="Welcome back">
+  <AppLayout>
     <section
       :class="[
-        'mx-auto grid',
+        'mx-auto grid items-stretch',
         themeTokens.layout.contentWidth,
         themeTokens.spacing.sectionGap,
         'lg:grid-cols-[1.1fr_0.9fr]',
@@ -59,7 +59,7 @@ function handleLogin() {
         :class="[
           'border border-border bg-gradient-to-br from-primary via-slate-900 to-slate-800 text-white',
           themeTokens.radius.xl,
-          themeTokens.spacing.cardPadding,
+          'p-6 sm:p-8',
           themeTokens.shadow.strong,
         ]"
       >
@@ -75,8 +75,7 @@ function handleLogin() {
 
         <div
           :class="[
-            'mt-10 flex items-center border border-white/10 bg-white/5 p-4',
-            themeTokens.spacing.contentGap,
+            'mt-8 flex flex-col gap-4 border border-white/10 bg-white/5 p-4 sm:mt-10 sm:flex-row sm:items-center',
             themeTokens.radius.lg,
           ]"
         >
@@ -102,7 +101,7 @@ function handleLogin() {
         <CardContent :class="themeTokens.spacing.sectionGap">
           <div :class="themeTokens.spacing.fieldStack">
             <label :class="themeTokens.typography.label">Email</label>
-            <Input v-model="email" type="email" placeholder="chris_evans@example.com" />
+            <Input v-model="email" type="email" placeholder="rizki_mustafiyanto@gmail.com" />
           </div>
 
           <div :class="themeTokens.spacing.fieldStack">

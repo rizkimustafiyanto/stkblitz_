@@ -1,28 +1,115 @@
 <script setup lang="ts">
-import { themeTokens } from '@/shared/constants'
+import { computed, ref } from 'vue'
+import { ChevronDown, ChevronLeft, LogOut, User } from 'lucide-vue-next'
+import { useRoute, useRouter } from 'vue-router'
 
-defineProps<{
-  title?: string
-}>()
+import { themeTokens } from '@/shared/constants'
+import { useAuthStore } from '@/stores/auth'
+import { useChatStore } from '@/stores/chat'
+
+const route = useRoute()
+const router = useRouter()
+const auth = useAuthStore()
+const chatStore = useChatStore()
+const showAccountMenu = ref(false)
+
+const displayName = computed(() => auth.user?.name ?? '')
+const resolvedTitle = computed(() => {
+  if (route.name === 'chat-detail') {
+    const chatId = String(route.params.id ?? '')
+    return chatStore.getChatById(chatId)?.name ?? 'Chat'
+  }
+
+  if (route.name === 'home') {
+    return 'Messages'
+  }
+
+  return 'stkblitz'
+})
+
+function logout() {
+  auth.logout()
+  router.push({ name: 'login' })
+}
+
+function backToHome() {
+  router.push({ name: 'home' })
+}
 </script>
 
 <template>
-  <div :class="[themeTokens.color.background, themeTokens.color.foreground, 'min-h-screen']">
-    <header class="border-b border-border bg-card/70 backdrop-blur">
-      <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <div>
+  <div
+    :class="[
+      themeTokens.color.background,
+      themeTokens.color.foreground,
+      'flex min-h-screen flex-col',
+    ]"
+  >
+    <header class="sticky top-0 z-20 border-b border-border bg-card/90 backdrop-blur">
+      <div
+        :class="[
+          'mx-auto flex items-center gap-3',
+          themeTokens.layout.shellWidth,
+          'px-4 py-3 sm:px-6 sm:py-4',
+        ]"
+      >
+        <div class="min-w-0 flex-1">
           <p :class="[themeTokens.typography.caption, themeTokens.color.mutedText]">stkblitz</p>
-          <h1 :class="[themeTokens.typography.h3]">{{ title ?? 'Modular Vue Starter' }}</h1>
+          <h1 :class="[themeTokens.typography.h3, 'truncate text-balance']">
+            {{ resolvedTitle }}
+          </h1>
+        </div>
+
+        <button
+          v-if="route.name === 'chat-detail'"
+          class="inline-flex h-10 items-center justify-center rounded-md border border-border px-3 text-sm font-medium transition hover:bg-accent hover:text-accent-foreground md:h-11 md:px-4"
+          @click="backToHome"
+        >
+          <ChevronLeft class="h-4 w-4 md:mr-2" />
+          <span class="hidden md:inline">Back</span>
+        </button>
+
+        <div v-else-if="auth.isLoggedIn" class="relative flex items-center gap-2 sm:gap-3">
+          <button
+            class="inline-flex h-10 items-center gap-2 rounded-md border border-border px-2 text-sm font-medium transition hover:bg-accent hover:text-accent-foreground sm:px-3"
+            @click="showAccountMenu = !showAccountMenu"
+          >
+            <User class="h-4 w-4" />
+            <span class="max-w-[7rem] truncate sm:max-w-none">{{ displayName }}</span>
+            <ChevronDown class="h-4 w-4 opacity-60" />
+          </button>
+          <div
+            v-if="showAccountMenu"
+            class="absolute right-0 top-12 z-40 w-56 rounded-xl border border-border bg-card p-2 shadow-lg"
+          >
+            <div class="px-3 py-2">
+              <p :class="[themeTokens.typography.caption, themeTokens.color.mutedText]">
+                Signed in as
+              </p>
+              <p :class="[themeTokens.typography.label]">{{ displayName }}</p>
+              <p :class="[themeTokens.typography.caption, themeTokens.color.mutedText]">
+                {{ auth.user?.email }}
+              </p>
+            </div>
+            <button
+              class="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition hover:bg-accent hover:text-accent-foreground"
+              @click="logout"
+            >
+              <LogOut class="h-4 w-4" />
+              Logout
+            </button>
+          </div>
         </div>
       </div>
     </header>
 
     <main
       :class="[
-        'mx-auto',
+        'flex min-h-0 flex-1 flex-col',
+        'w-full',
         themeTokens.layout.shellWidth,
-        themeTokens.spacing.pageX,
-        themeTokens.spacing.pageY,
+        'mx-auto',
+        'px-4 py-5 sm:px-6 sm:py-10',
       ]"
     >
       <slot />

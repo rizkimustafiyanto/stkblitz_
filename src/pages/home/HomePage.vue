@@ -4,7 +4,7 @@ import ChatListFeature from '@/features/chat/ChatListFeature.vue'
 </script>
 
 <template>
-  <AppLayout title="Messages">
+  <AppLayout>
     <ChatListFeature />
   </AppLayout>
 </template>

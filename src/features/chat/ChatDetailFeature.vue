@@ -4,7 +4,6 @@ import { useRoute, useRouter } from 'vue-router'
 
 import { themeTokens } from '@/shared/constants'
 import Button from '@/shared/ui/button.vue'
-import Card from '@/shared/ui/card.vue'
 import Input from '@/shared/ui/input.vue'
 import { formatChatTime } from '@/shared/utils/date'
 import { useChatStore } from '@/stores/chat'
@@ -39,42 +38,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <section v-if="chat" :class="themeTokens.spacing.sectionGap">
-    <div class="flex items-center justify-between gap-4">
-      <button
-        :class="[
-          themeTokens.typography.caption,
-          themeTokens.color.mutedText,
-          'font-medium hover:text-foreground',
-        ]"
-        @click="backToList"
-      >
-        Back to chats
-      </button>
-      <div class="text-right">
-        <p :class="[themeTokens.typography.caption, themeTokens.color.mutedText]">Chat with</p>
-        <h2 :class="[themeTokens.typography.h2]">{{ chat.name }}</h2>
-      </div>
-    </div>
-
-    <Card class="overflow-hidden">
-      <div class="border-b border-border p-4">
-        <div class="flex items-center gap-3">
-          <img
-            :src="chat.avatar"
-            :alt="chat.name"
-            :class="['h-12 w-12 object-cover', themeTokens.radius.pill]"
-          />
-          <div>
-            <h3 class="font-semibold">{{ chat.name }}</h3>
-            <p :class="[themeTokens.typography.body, themeTokens.color.mutedText]">
-              {{ chat.username }}
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="max-h-[60vh] space-y-4 overflow-y-auto p-4">
+  <section v-if="chat" class="flex h-full min-h-0 flex-1 flex-col overflow-hidden">
+    <div class="flex min-h-0 flex-1 flex-col overflow-hidden">
+      <div class="min-h-0 flex-1 space-y-4 overflow-y-auto px-3 py-4 sm:px-4 sm:py-5">
         <div
           v-for="message in chat.messages"
           :key="message.id"
@@ -83,7 +49,7 @@ onMounted(() => {
         >
           <div
             :class="[
-              'max-w-[75%] px-4 py-3 text-sm leading-6',
+              'max-w-[86%] px-3 py-2.5 text-sm leading-6 sm:max-w-[75%] sm:px-4 sm:py-3',
               themeTokens.radius.lg,
               themeTokens.shadow.subtle,
               message.sender === 'me'
@@ -91,7 +57,6 @@ onMounted(() => {
                 : 'bg-secondary text-secondary-foreground',
             ]"
           >
-            <p class="font-medium" v-if="message.sender === 'them'">{{ chat.name }}</p>
             <p>{{ message.text }}</p>
             <p :class="['mt-1', themeTokens.typography.caption, 'opacity-70']">
               {{ formatChatTime(message.createdAt) }}
@@ -100,17 +65,20 @@ onMounted(() => {
         </div>
       </div>
 
-      <div class="border-t border-border p-4">
+      <div
+        class="mt-auto shrink-0 border-t border-border bg-background/95 px-1 py-4 backdrop-blur-sm sm:px-4 sm:py-5"
+      >
         <div class="flex gap-3">
           <Input
             v-model="draft"
             placeholder="Type a message and press Enter..."
+            class="min-w-0 flex-1"
             @keyup.enter="send"
           />
-          <Button @click="send">Send</Button>
+          <Button class="shrink-0 px-5" @click="send">Send</Button>
         </div>
       </div>
-    </Card>
+    </div>
   </section>
 
   <section

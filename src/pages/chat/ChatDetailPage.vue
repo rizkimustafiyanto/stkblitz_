@@ -4,7 +4,7 @@ import ChatDetailFeature from '@/features/chat/ChatDetailFeature.vue'
 </script>
 
 <template>
-  <AppLayout title="Chat detail">
+  <AppLayout>
     <ChatDetailFeature />
   </AppLayout>
 </template>
