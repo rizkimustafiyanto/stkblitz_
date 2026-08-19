@@ -1,0 +1,16 @@
+export const themeColors = {
+  background: 'bg-background',
+  foreground: 'text-foreground',
+  muted: 'bg-muted',
+  mutedText: 'text-muted-foreground',
+  surface: 'bg-card',
+  surfaceText: 'text-card-foreground',
+  border: 'border-border',
+  primary: 'bg-primary text-primary-foreground',
+  secondary: 'bg-secondary text-secondary-foreground',
+  accent: 'bg-accent text-accent-foreground',
+  ring: 'focus-visible:ring-ring',
+  destructive: 'bg-red-600 text-white',
+  whiteSoft: 'text-white/75',
+  whiteMuted: 'text-white/60',
+} as const

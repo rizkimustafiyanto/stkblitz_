@@ -1,5 +1,9 @@
+<script setup lang="ts">
+import { themeTokens } from '@/shared/constants'
+</script>
+
 <template>
-  <p class="text-sm text-muted-foreground">
+  <p :class="[themeTokens.typography.body, themeTokens.color.mutedText]">
     <slot />
   </p>
 </template>

@@ -1,5 +1,9 @@
+<script setup lang="ts">
+import { themeTokens } from '@/shared/constants'
+</script>
+
 <template>
-  <div class="rounded-xl border border-border bg-card text-card-foreground shadow-sm">
+  <div :class="themeTokens.components.card.base">
     <slot />
   </div>
 </template>
