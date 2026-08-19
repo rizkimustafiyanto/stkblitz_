@@ -9,12 +9,19 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "pinia": "^2.0.23",
     "vue": "^3.2.40",
-    "vue-router": "^4.1.5"
+    "vue-router": "^4.1.5",
+    "tailwind-merge": "^2.5.4",
+    "lucide-vue-next": "^0.446.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.1.2",
+    "@types/node": "^22.10.2",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
     "autoprefixer": "^10.4.12",
     "eslint": "^8.25.0",
     "eslint-plugin-vue": "^9.6.0",
