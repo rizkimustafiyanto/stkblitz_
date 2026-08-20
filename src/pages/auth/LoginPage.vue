@@ -116,7 +116,6 @@ const onSubmit = async () => {
           <CardContent :class="[themeTokens.spacing.sectionGap, 'pt-2 sm:pt-3']">
             <div :class="themeTokens.spacing.fieldStack">
               <label for="email" :class="themeTokens.typography.label"> Email </label>
-
               <Input
                 id="email"
                 v-model="email"
@@ -127,31 +126,25 @@ const onSubmit = async () => {
                 :aria-invalid="Boolean(errors.email)"
                 :aria-describedby="errors.email ? 'email-error' : undefined"
               />
-
-              <p v-if="errors.email" id="email-error" class="text-sm leading-5 text-destructive">
+              <p v-if="errors.email" id="email-error" :class="themeTokens.components.p.error">
                 {{ errors.email }}
               </p>
             </div>
 
             <div :class="themeTokens.spacing.fieldStack">
               <label for="password" :class="themeTokens.typography.label"> Password </label>
-
               <Input
                 id="password"
                 v-model="password"
                 type="password"
                 autocomplete="current-password"
                 placeholder="••••••••"
+                show-password-toggle
                 :disabled="loading"
                 :aria-invalid="Boolean(errors.password)"
                 :aria-describedby="errors.password ? 'password-error' : undefined"
               />
-
-              <p
-                v-if="errors.password"
-                id="password-error"
-                class="text-sm leading-5 text-destructive"
-              >
+              <p v-if="errors.password" id="password-error" :class="themeTokens.components.p.error">
                 {{ errors.password }}
               </p>
             </div>

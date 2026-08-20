@@ -59,7 +59,7 @@ defineProps<{
           </time>
         </div>
 
-        <p class="mt-1 break-words text-sm leading-6">
+        <p class="mt-1 whitespace-pre-wrap break-words text-sm leading-6">
           {{ message.text }}
         </p>
       </div>

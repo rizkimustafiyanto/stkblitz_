@@ -52,7 +52,7 @@ watch(
 
 <template>
   <section class="grid min-h-0 flex-1 grid-rows-[minmax(0,1fr)_auto]">
-    <div ref="messageContainer" class="min-h-0 overflow-y-auto overscroll-contain">
+    <div ref="messageContainer" class="min-h-0 overflow-y-auto scrollbar-hide overscroll-contain">
       <Message :messages="chat.messages" :sender="chat.name" />
     </div>
 

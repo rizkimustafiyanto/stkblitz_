@@ -11,6 +11,7 @@ export const themeColors = {
   accent: 'bg-accent text-accent-foreground',
   ring: 'focus-visible:ring-ring',
   destructive: 'bg-red-600 text-white',
+  errors: 'text-rose-500 dark:text-rose-400',
   whiteSoft: 'text-white/75',
   whiteMuted: 'text-white/60',
 } as const
