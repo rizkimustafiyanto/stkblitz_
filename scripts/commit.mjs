@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename)
 
 function getScopes() {
   const dirs = []
-  ;['src', 'scripts'].forEach((root) => {
+  ;['src', 'scripts', 'tests'].forEach((root) => {
     const rootPath = path.join(__dirname, '..', root)
     if (!fs.existsSync(rootPath)) return
     dirs.push(root)
@@ -286,6 +286,7 @@ async function createCommit() {
     await runCheck('Prettier Format', 'npm', ['run', 'format'])
     await runCheck('Lint', 'npm', ['run', 'lint'])
   }
+  await runCheck('Test Coverage', 'npm', ['run', 'test:coverage'])
 
   await execa('git', ['add', '.'], { stdio: 'inherit' })
   await execa('git', ['commit', '-m', commitMessage], { stdio: 'inherit' })

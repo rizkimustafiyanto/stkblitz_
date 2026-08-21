@@ -23,8 +23,13 @@ export const authService = () => {
       return true
     },
 
-    me() {
-      return client.get<User>('/auth/me')
+    me(): User {
+      // return client.get<User>('/auth/me')
+      return {
+        name: '',
+        email: 'rizki.mustafiyanto@gmail.com',
+        avatar: '',
+      }
     },
   }
 }
